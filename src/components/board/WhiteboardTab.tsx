@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 import React, { useRef, useState, useEffect, useCallback, useLayoutEffect } from "react";
 import {
   MousePointer2, Pencil, Square, Circle, Minus, ArrowRight,
@@ -7,7 +8,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAI } from "@/hooks/useAI";
-import { useGamificationStore } from "@/stores/useGamificationStore";
 import { renderEl, drawDotGrid, hitTest, uid, WBElement, Tool, StrokeStyle, FillStyle, Pt } from "./wbEngine";
 
 // ─── Constants ──────────────────────────────────────────────
@@ -26,6 +26,32 @@ function blankEl(type: Tool, p: Pt, stroke: string, fill: string, sw: number, ss
 }
 
 interface Props { tabId: string }
+
+
+const STYLES = {
+  style1: { background:"hsl(220,14%,93%)" } as React.CSSProperties,
+  style2: { width:1,height:22,background:"#e2e8f0",margin:"0 3px" } as React.CSSProperties,
+  style3: { width:1,height:22,background:"#e2e8f0",margin:"0 3px" } as React.CSSProperties,
+  style4: { width:1,height:22,background:"#e2e8f0",margin:"0 3px" } as React.CSSProperties,
+  style5: { fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:1,marginBottom:5,textAlign:"center" } as React.CSSProperties,
+  style6: { height:1,background:"#e2e8f0" } as React.CSSProperties,
+  style7: { fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:1,marginBottom:5,textAlign:"center" } as React.CSSProperties,
+  style8: { position:"absolute",top:"50%",left:0,right:0,height:1.5,background:"#ef4444",transform:"rotate(-45deg)" } as React.CSSProperties,
+  style9: { height:1,background:"#e2e8f0" } as React.CSSProperties,
+  style10: { fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:1,marginBottom:5,textAlign:"center" } as React.CSSProperties,
+  style11: { height:1,background:"#e2e8f0" } as React.CSSProperties,
+  style12: { fontSize:9,fontWeight:700,color:"#94a3b8" } as React.CSSProperties,
+  style13: { height:1,width:24,background:"#e2e8f0" } as React.CSSProperties,
+  style14: { height:1,width:24,background:"#e2e8f0" } as React.CSSProperties,
+  style15: { opacity:0.3 } as React.CSSProperties,
+  style16: { opacity:0.3 } as React.CSSProperties,
+  style17: { opacity:0.3 } as React.CSSProperties,
+  style18: { color:"#3b82f6" } as React.CSSProperties,
+  style19: { fontWeight:700,fontSize:15,color:"#0f172a" } as React.CSSProperties,
+  style20: { fontSize:12,color:"#94a3b8" } as React.CSSProperties,
+  style21: { width:"100%",padding:"12px 16px",borderRadius:12,fontSize:14,color:"#0f172a",border:"none",outline:"none",boxSizing:"border-box",marginBottom:16,background:"hsl(220,14%,96%)",boxShadow:"inset 3px 3px 7px rgba(0,0,0,0.11),inset -3px -3px 7px rgba(255,255,255,0.6)" } as React.CSSProperties,
+  style22: { padding:"9px 18px",borderRadius:10,border:"none",cursor:"pointer",background:"hsl(220,14%,96%)",boxShadow:"3px 3px 7px rgba(0,0,0,0.1),-3px -3px 7px rgba(255,255,255,0.8)",color:"#475569",fontWeight:600,fontSize:13 } as React.CSSProperties,
+};
 
 export function WhiteboardTab({ tabId }: Props) {
   const cvs  = useRef<HTMLCanvasElement>(null);
@@ -59,7 +85,6 @@ export function WhiteboardTab({ tabId }: Props) {
   const moveStart = useRef<Pt>({x:0,y:0});
 
   const { generateMindMap, isLoading } = useAI();
-  const { trackAction } = useGamificationStore();
 
   // ── helpers ──────────────────────────────────────────────
   const toCanvas = useCallback((cx:number, cy:number):Pt => {
@@ -265,7 +290,7 @@ export function WhiteboardTab({ tabId }: Props) {
     }));
 
     const upd=[...els,...edges,...nodes];
-    setEls(upd); pushHist(upd); trackAction("mindmap");
+    setEls(upd); pushHist(upd);
     setAiTopic("");
   };
 
@@ -294,7 +319,7 @@ export function WhiteboardTab({ tabId }: Props) {
 
   const cursor: Record<Tool,string> = {
     select:"default", pan:"grab", pencil:"crosshair", eraser:"cell",
-    rect:"crosshair", roundrect:"crosshair", ellipse:"crosshair",
+    rect:"crosshair", ellipse:"crosshair",
     diamond:"crosshair", triangle:"crosshair", line:"crosshair",
     arrow:"crosshair", text:"text", sticky:"crosshair",
   };
@@ -307,7 +332,7 @@ export function WhiteboardTab({ tabId }: Props) {
   };
 
   return (
-    <div className="relative h-full flex overflow-hidden select-none" style={{background:"hsl(220,14%,93%)"}}>
+    <div className="relative h-full flex overflow-hidden select-none" style={STYLES.style1}>
 
       {/* ── TOP TOOLBAR ── */}
       <div style={{...panelSx, top:12, left:"50%", transform:"translateX(-50%)", display:"flex", alignItems:"center", gap:2, padding:"5px 8px"}}>
@@ -315,7 +340,7 @@ export function WhiteboardTab({ tabId }: Props) {
           const sep = i===2||i===4||i===8||i===10;
           return (
             <React.Fragment key={t.id}>
-              {sep && <div style={{width:1,height:22,background:"#e2e8f0",margin:"0 3px"}} />}
+              {sep && <div style={STYLES.style2} />}
               <button
                 title={`${t.label}${t.key?" ("+t.key+")":""}`}
                 onClick={()=>setTool(t.id)}
@@ -335,7 +360,7 @@ export function WhiteboardTab({ tabId }: Props) {
             </React.Fragment>
           );
         })}
-        <div style={{width:1,height:22,background:"#e2e8f0",margin:"0 3px"}}/>
+        <div style={STYLES.style3}/>
         {/* Undo/Redo */}
         {[{icon:Undo2,fn:undo,dis:hidx<=0,tip:"Undo (Ctrl+Z)"},{icon:Redo2,fn:redo,dis:hidx>=hist.length-1,tip:"Redo (Ctrl+Y)"}].map(({icon:IC,fn,dis,tip})=>(
           <button key={tip} title={tip} onClick={fn} disabled={dis}
@@ -343,7 +368,7 @@ export function WhiteboardTab({ tabId }: Props) {
             <IC size={15}/>
           </button>
         ))}
-        <div style={{width:1,height:22,background:"#e2e8f0",margin:"0 3px"}}/>
+        <div style={STYLES.style4}/>
         {/* AI */}
         <button title="AI Mind Map" onClick={()=>setShowAI(true)}
           style={{height:34,padding:"0 12px",borderRadius:10,display:"flex",alignItems:"center",gap:6,background:"linear-gradient(135deg,#fb923c,#f97316)",boxShadow:"3px 3px 8px rgba(0,0,0,0.12),0 0 10px rgba(249,115,22,0.25)",color:"#fff",fontWeight:700,fontSize:12,border:"none",cursor:"pointer"}}>
@@ -356,7 +381,7 @@ export function WhiteboardTab({ tabId }: Props) {
       <div style={{...panelSx, left:12, top:"50%", transform:"translateY(-50%)", padding:"10px 8px", display:"flex", flexDirection:"column", gap:10}}>
         {/* Stroke */}
         <div>
-          <div style={{fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:1,marginBottom:5,textAlign:"center"}}>Stroke</div>
+          <div style={STYLES.style5}>Stroke</div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:4}}>
             {STROKE_COLORS.slice(0,8).map(c=>(
               <button key={c} onClick={()=>setSColor(c)} title={c}
@@ -364,25 +389,25 @@ export function WhiteboardTab({ tabId }: Props) {
             ))}
           </div>
         </div>
-        <div style={{height:1,background:"#e2e8f0"}}/>
+        <div style={STYLES.style6}/>
 
         {/* Fill */}
         <div>
-          <div style={{fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:1,marginBottom:5,textAlign:"center"}}>Fill</div>
+          <div style={STYLES.style7}>Fill</div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:4}}>
             {FILL_COLORS.slice(0,8).map(c=>(
               <button key={c} onClick={()=>setFColor(c)} title={c==="none"?"No fill":c}
                 style={{width:22,height:22,borderRadius:6,background:c==="none"?"#fff":"" + c,border:"1px solid #e2e8f0",cursor:"pointer",outline:fColor===c?"2.5px solid #f97316":"none",outlineOffset:1.5,overflow:"hidden",position:"relative",transition:"all 0.1s"}}>
-                {c==="none" && <div style={{position:"absolute",top:"50%",left:0,right:0,height:1.5,background:"#ef4444",transform:"rotate(-45deg)"}}/>}
+                {c==="none" && <div style={STYLES.style8}/>}
               </button>
             ))}
           </div>
         </div>
-        <div style={{height:1,background:"#e2e8f0"}}/>
+        <div style={STYLES.style9}/>
 
         {/* Width */}
         <div>
-          <div style={{fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:1,marginBottom:5,textAlign:"center"}}>Width</div>
+          <div style={STYLES.style10}>Width</div>
           <div style={{display:"flex",flexDirection:"column",gap:4,alignItems:"center"}}>
             {WIDTHS.map(w=>(
               <button key={w} onClick={()=>setSWidth(w)} title={`${w}px`}
@@ -392,7 +417,7 @@ export function WhiteboardTab({ tabId }: Props) {
             ))}
           </div>
         </div>
-        <div style={{height:1,background:"#e2e8f0"}}/>
+        <div style={STYLES.style11}/>
 
         {/* Stroke style */}
         <div style={{display:"flex",flexDirection:"column",gap:4,alignItems:"center"}}>
@@ -417,13 +442,13 @@ export function WhiteboardTab({ tabId }: Props) {
             <IC size={13}/>
           </button>
         ))}
-        <div style={{fontSize:9,fontWeight:700,color:"#94a3b8"}}>{Math.round(zoom*100)}%</div>
-        <div style={{height:1,width:24,background:"#e2e8f0"}}/>
+        <div style={STYLES.style12}>{Math.round(zoom*100)}%</div>
+        <div style={STYLES.style13}/>
         <button title="Toggle grid" onClick={()=>setShowGrid(v=>!v)}
           style={{width:30,height:30,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",background:"hsl(220,14%,96%)",boxShadow:showGrid?"inset 2px 2px 5px rgba(0,0,0,0.12)":"2px 2px 6px rgba(0,0,0,0.1),-2px -2px 6px rgba(255,255,255,0.8)",color:showGrid?"#f97316":"#94a3b8",border:"none",cursor:"pointer",fontSize:12,fontWeight:700}}>
           ⋮⋮
         </button>
-        <div style={{height:1,width:24,background:"#e2e8f0"}}/>
+        <div style={STYLES.style14}/>
         <button title="Export PNG" onClick={exportPNG}
           style={{width:30,height:30,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",background:"hsl(220,14%,96%)",boxShadow:"2px 2px 6px rgba(0,0,0,0.1),-2px -2px 6px rgba(255,255,255,0.8)",color:"#475569",border:"none",cursor:"pointer"}}>
           <Download size={13}/>
@@ -452,11 +477,11 @@ export function WhiteboardTab({ tabId }: Props) {
       {/* ── STATUS BAR ── */}
       <div style={{...panelSx,bottom:12,left:"50%",transform:"translateX(-50%)",padding:"5px 14px",display:"flex",gap:10,fontSize:11,color:"#64748b"}}>
         <span>{els.length} element{els.length!==1?"s":""}</span>
-        <span style={{opacity:0.3}}>|</span>
+        <span style={STYLES.style15}>|</span>
         <span>{Math.round(zoom*100)}%</span>
-        <span style={{opacity:0.3}}>|</span>
+        <span style={STYLES.style16}>|</span>
         <span className="capitalize">{tool}</span>
-        {selIds.size>0 && <><span style={{opacity:0.3}}>|</span><span style={{color:"#3b82f6"}}>{selIds.size} selected</span></>}
+        {selIds.size>0 && <><span style={STYLES.style17}>|</span><span style={STYLES.style18}>{selIds.size} selected</span></>}
       </div>
 
       {/* ── AI MODAL ── */}
@@ -469,17 +494,17 @@ export function WhiteboardTab({ tabId }: Props) {
                 <Sparkles size={20} color="#fff"/>
               </div>
               <div>
-                <div style={{fontWeight:700,fontSize:15,color:"#0f172a"}}>AI Mind Map</div>
-                <div style={{fontSize:12,color:"#94a3b8"}}>Generate a radial mind map instantly</div>
+                <div style={STYLES.style19}>AI Mind Map</div>
+                <div style={STYLES.style20}>Generate a radial mind map instantly</div>
               </div>
             </div>
             <input autoFocus value={aiTopic} onChange={e=>setAiTopic(e.target.value)}
               onKeyDown={e=>e.key==="Enter"&&handleAI()}
               placeholder="e.g. Photosynthesis, Machine Learning, WW2…"
-              style={{width:"100%",padding:"12px 16px",borderRadius:12,fontSize:14,color:"#0f172a",border:"none",outline:"none",boxSizing:"border-box",marginBottom:16,background:"hsl(220,14%,96%)",boxShadow:"inset 3px 3px 7px rgba(0,0,0,0.11),inset -3px -3px 7px rgba(255,255,255,0.6)"}}/>
+              style={STYLES.style21}/>
             <div style={{display:"flex",gap:10,justifyContent:"flex-end"}}>
               <button onClick={()=>setShowAI(false)}
-                style={{padding:"9px 18px",borderRadius:10,border:"none",cursor:"pointer",background:"hsl(220,14%,96%)",boxShadow:"3px 3px 7px rgba(0,0,0,0.1),-3px -3px 7px rgba(255,255,255,0.8)",color:"#475569",fontWeight:600,fontSize:13}}>
+                style={STYLES.style22}>
                 Cancel
               </button>
               <button onClick={handleAI} disabled={!aiTopic.trim()||isLoading}

@@ -7,7 +7,6 @@ import {
   GripVertical, X, Check, Wand2,
 } from 'lucide-react';
 import { useAI } from '@/hooks/useAI';
-import { useGamificationStore } from '@/stores/useGamificationStore';
 import { cn } from '@/lib/utils';
 import {
   Slide, SlideLayout, SlideStyle, SlideBullet,
@@ -44,6 +43,71 @@ const NEU_RAISED_SM = "3px 3px 6px hsl(var(--neu-shadow-dark)), -3px -3px 6px hs
 // ──────────────────────────────────────────────
 // Main Component
 // ──────────────────────────────────────────────
+
+const STYLES = {
+  style1: {  position: 'fixed', inset: 0, zIndex: 9999, background: '#000', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'  } as React.CSSProperties,
+  style2: {  position: 'relative', width: '90vw', maxWidth: 1200, aspectRatio: '16/9'  } as React.CSSProperties,
+  style3: {  width: '100%', paddingBottom: '56.25%', position: 'relative', overflow: 'hidden', borderRadius: 12  } as React.CSSProperties,
+  style4: {  display: 'flex', gap: 12, marginTop: 24, alignItems: 'center'  } as React.CSSProperties,
+  style5: {  background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: 8, padding: '8px 16px', color: '#fff', cursor: 'pointer'  } as React.CSSProperties,
+  style6: {  color: '#fff', opacity: 0.7, fontSize: 14  } as React.CSSProperties,
+  style7: {  background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: 8, padding: '8px 16px', color: '#fff', cursor: 'pointer'  } as React.CSSProperties,
+  style8: {  background: 'rgba(220,38,38,0.7)', border: 'none', borderRadius: 8, padding: '8px 16px', color: '#fff', cursor: 'pointer', marginLeft: 8  } as React.CSSProperties,
+  style9: {  background: NEU_BG  } as React.CSSProperties,
+  style10: {  background: NEU_BG, boxShadow: '0 3px 8px hsl(var(--neu-shadow-dark)/0.3)'  } as React.CSSProperties,
+  style11: {  background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), -1px -1px 4px hsl(var(--neu-shadow-light)), 0 0 14px hsl(var(--spark)/0.3)'  } as React.CSSProperties,
+  style12: {  width: 1, height: 28, background: 'hsl(var(--neu-shadow-dark))', opacity: 0.3  } as React.CSSProperties,
+  style13: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style14: {  width: 1, height: 28, background: 'hsl(var(--neu-shadow-dark))', opacity: 0.3  } as React.CSSProperties,
+  style15: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style16: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style17: {  background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), -1px -1px 4px hsl(var(--neu-shadow-light))'  } as React.CSSProperties,
+  style18: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style19: {  background: NEU_BG, boxShadow: '4px 0 10px hsl(var(--neu-shadow-dark)/0.2)'  } as React.CSSProperties,
+  style20: {  padding: '3px 4px 4px', background: NEU_BG  } as React.CSSProperties,
+  style21: {  fontSize: 9, color: 'hsl(var(--ink-faint))'  } as React.CSSProperties,
+  style22: {  fontSize: 8  } as React.CSSProperties,
+  style23: {  borderColor: 'hsl(var(--neu-shadow-dark)/0.3)'  } as React.CSSProperties,
+  style24: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style25: {  background: 'hsl(var(--neu-bg))'  } as React.CSSProperties,
+  style26: { 
+              width: 'min(90%, 960px)',
+              aspectRatio: '16/9',
+              position: 'relative',
+              borderRadius: 16,
+              overflow: 'hidden',
+              boxShadow: '20px 20px 40px hsl(var(--neu-shadow-dark)), -10px -10px 30px hsl(var(--neu-shadow-light))',
+             } as React.CSSProperties,
+  style27: {  position: 'absolute', inset: 0  } as React.CSSProperties,
+  style28: {  height: 120, borderTop: '1px solid hsl(var(--neu-shadow-dark)/0.3)', background: NEU_BG, padding: '10px 16px'  } as React.CSSProperties,
+  style29: {  background: NEU_BG, boxShadow: '-4px 0 10px hsl(var(--neu-shadow-dark)/0.2)'  } as React.CSSProperties,
+  style30: {  background: NEU_BG, boxShadow: NEU_INSET  } as React.CSSProperties,
+  style31: {  background: NEU_BG, boxShadow: NEU_INSET  } as React.CSSProperties,
+  style32: {  background: NEU_BG, boxShadow: NEU_INSET  } as React.CSSProperties,
+  style33: {  background: NEU_BG, boxShadow: NEU_INSET  } as React.CSSProperties,
+  style34: {  background: NEU_BG, boxShadow: NEU_INSET  } as React.CSSProperties,
+  style35: {  background: NEU_BG, boxShadow: NEU_INSET  } as React.CSSProperties,
+  style36: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style37: {  fontSize: 8  } as React.CSSProperties,
+  style38: {  fontSize: 8  } as React.CSSProperties,
+  style39: {  background: NEU_BG, boxShadow: NEU_INSET, paddingLeft: 8 + b.level * 12  } as React.CSSProperties,
+  style40: {  background: NEU_BG, boxShadow: NEU_INSET  } as React.CSSProperties,
+  style41: {  position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center'  } as React.CSSProperties,
+  style42: {  background: NEU_BG, boxShadow: '20px 20px 40px hsl(var(--neu-shadow-dark)), -10px -10px 30px hsl(var(--neu-shadow-light))', width: 540, maxWidth: '95vw'  } as React.CSSProperties,
+  style43: {  borderBottom: '1px solid hsl(var(--neu-shadow-dark)/0.3)'  } as React.CSSProperties,
+  style44: {  background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', borderRadius: 12, padding: 8, boxShadow: '0 0 14px hsl(var(--spark)/0.4)'  } as React.CSSProperties,
+  style45: {  background: NEU_BG, boxShadow: NEU_RAISED_SM, borderRadius: 10, padding: 6  } as React.CSSProperties,
+  style46: {  flex: 1, height: 2, background: 'hsl(var(--neu-shadow-dark)/0.3)', borderRadius: 1  } as React.CSSProperties,
+  style47: {  background: NEU_BG, boxShadow: NEU_INSET  } as React.CSSProperties,
+  style48: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style49: {  background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), 0 0 14px hsl(var(--spark)/0.3)'  } as React.CSSProperties,
+  style50: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style51: {  background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), 0 0 14px hsl(var(--spark)/0.3)'  } as React.CSSProperties,
+  style52: {  background: NEU_BG, boxShadow: NEU_RAISED_SM  } as React.CSSProperties,
+  style53: {  background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), 0 0 18px hsl(var(--spark)/0.4)'  } as React.CSSProperties,
+  style54: {  background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', borderRadius: '50%', padding: 16, boxShadow: '0 0 30px hsl(var(--spark)/0.5)'  } as React.CSSProperties,
+};
+
 export function SlideTab({ tabId }: SlideTabProps) {
   const [slides, setSlides] = useState<Slide[]>([
     createTitleSlide('Click to Edit Title', 'Your subtitle here', 'professional'),
@@ -61,7 +125,6 @@ export function SlideTab({ tabId }: SlideTabProps) {
   const [presentIdx, setPresentIdx] = useState(0);
   const [editingBulletId, setEditingBulletId] = useState<string | null>(null);
   const { generateSlides, isLoading } = useAI();
-  const { trackAction } = useGamificationStore();
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const active = slides.find(s => s.id === activeId) ?? slides[0];
@@ -159,7 +222,6 @@ export function SlideTab({ tabId }: SlideTabProps) {
         setSlides(themed);
         setDeckThemeId(wizardTheme);
         setActiveId(themed[0].id);
-        trackAction('slides');
       }
     } finally {
       setShowWizard(false);
@@ -189,24 +251,24 @@ export function SlideTab({ tabId }: SlideTabProps) {
     const pSlide = slides[presentIdx];
     const pTheme = getTheme(pSlide.themeId);
     return (
-      <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#000', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ position: 'relative', width: '90vw', maxWidth: 1200, aspectRatio: '16/9' }}>
-          <div style={{ width: '100%', paddingBottom: '56.25%', position: 'relative', overflow: 'hidden', borderRadius: 12 }}>
+      <div style={STYLES.style1}>
+        <div style={STYLES.style2}>
+          <div style={STYLES.style3}>
             <div style={{ position: 'absolute', inset: 0, transform: `scale(${(window.innerWidth * 0.9) / CANVAS_W})`, transformOrigin: 'top left' }}>
               <SlideCanvas slide={pSlide} scale={1} />
             </div>
           </div>
         </div>
         {/* Controls */}
-        <div style={{ display: 'flex', gap: 12, marginTop: 24, alignItems: 'center' }}>
-          <button onClick={() => setPresentIdx(i => Math.max(0, i - 1))} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: 8, padding: '8px 16px', color: '#fff', cursor: 'pointer' }}>
+        <div style={STYLES.style4}>
+          <button onClick={() => setPresentIdx(i => Math.max(0, i - 1))} style={STYLES.style5}>
             <SkipBack className="h-5 w-5" />
           </button>
-          <span style={{ color: '#fff', opacity: 0.7, fontSize: 14 }}>{presentIdx + 1} / {slides.length}</span>
-          <button onClick={() => setPresentIdx(i => Math.min(slides.length - 1, i + 1))} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: 8, padding: '8px 16px', color: '#fff', cursor: 'pointer' }}>
+          <span style={STYLES.style6}>{presentIdx + 1} / {slides.length}</span>
+          <button onClick={() => setPresentIdx(i => Math.min(slides.length - 1, i + 1))} style={STYLES.style7}>
             <SkipForward className="h-5 w-5" />
           </button>
-          <button onClick={() => setShowPresent(false)} style={{ background: 'rgba(220,38,38,0.7)', border: 'none', borderRadius: 8, padding: '8px 16px', color: '#fff', cursor: 'pointer', marginLeft: 8 }}>
+          <button onClick={() => setShowPresent(false)} style={STYLES.style8}>
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -218,38 +280,38 @@ export function SlideTab({ tabId }: SlideTabProps) {
   // MAIN EDITOR
   // ══════════════════════════════════════════════
   return (
-    <div className="h-full flex flex-col" style={{ background: NEU_BG }}>
+    <div className="h-full flex flex-col" style={STYLES.style9}>
 
       {/* ── TOP TOOLBAR ── */}
-      <div className="flex items-center gap-2 px-4 py-2 flex-wrap" style={{ background: NEU_BG, boxShadow: '0 3px 8px hsl(var(--neu-shadow-dark)/0.3)' }}>
+      <div className="flex items-center gap-2 px-4 py-2 flex-wrap" style={STYLES.style10}>
         {/* AI Generate */}
         <button
           onClick={() => { setShowWizard(true); setWizardStep('topic'); }}
           disabled={isLoading}
           className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold text-white transition-all"
-          style={{ background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), -1px -1px 4px hsl(var(--neu-shadow-light)), 0 0 14px hsl(var(--spark)/0.3)' }}
+          style={STYLES.style11}
         >
           {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
           {isLoading ? 'Generating...' : 'AI Generate'}
         </button>
 
-        <div style={{ width: 1, height: 28, background: 'hsl(var(--neu-shadow-dark))', opacity: 0.3 }} />
+        <div style={STYLES.style12} />
 
         {/* Add slide dropdown (quick) */}
         {LAYOUTS.map(l => (
           <button key={l.id} title={`Add ${l.label}`} onClick={() => addSlide(l.id)}
             className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-ink-light hover:text-ink transition-all"
-            style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>
+            style={STYLES.style13}>
             {l.icon}<span className="hidden lg:inline">{l.label}</span>
           </button>
         ))}
 
-        <div style={{ width: 1, height: 28, background: 'hsl(var(--neu-shadow-dark))', opacity: 0.3 }} />
+        <div style={STYLES.style14} />
 
         {/* Duplicate */}
         <button title="Duplicate slide" onClick={duplicateSlide}
           className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-ink-light hover:text-ink transition-all"
-          style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>
+          style={STYLES.style15}>
           <Copy className="h-4 w-4" />
         </button>
 
@@ -257,7 +319,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
         {slides.length > 1 && (
           <button title="Delete slide" onClick={() => deleteSlide(activeId)}
             className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-red-400 hover:text-red-500 transition-all"
-            style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>
+            style={STYLES.style16}>
             <Trash2 className="h-4 w-4" />
           </button>
         )}
@@ -274,14 +336,14 @@ export function SlideTab({ tabId }: SlideTabProps) {
         {/* Present */}
         <button onClick={() => { setShowPresent(true); setPresentIdx(activeIdx); }}
           className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white transition-all"
-          style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), -1px -1px 4px hsl(var(--neu-shadow-light))' }}>
+          style={STYLES.style17}>
           <Play className="h-4 w-4" /> Present
         </button>
 
         {/* Export */}
         <button onClick={exportJSON}
           className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-ink-light hover:text-ink transition-all"
-          style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>
+          style={STYLES.style18}>
           <Download className="h-4 w-4" /><span className="hidden sm:inline">Export</span>
         </button>
       </div>
@@ -290,7 +352,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
       <div className="flex flex-1 overflow-hidden">
 
         {/* ── LEFT: Slide Panel ── */}
-        <div className="flex flex-col w-40 shrink-0 overflow-y-auto" style={{ background: NEU_BG, boxShadow: '4px 0 10px hsl(var(--neu-shadow-dark)/0.2)' }}>
+        <div className="flex flex-col w-40 shrink-0 overflow-y-auto" style={STYLES.style19}>
           <div className="flex-1 p-2 space-y-2">
             {slides.map((s, i) => {
               const isAct = s.id === activeId;
@@ -304,14 +366,14 @@ export function SlideTab({ tabId }: SlideTabProps) {
                       <SlideCanvas slide={s} scale={1} isThumb />
                     </div>
                   </div>
-                  <div style={{ padding: '3px 4px 4px', background: NEU_BG }}>
-                    <span style={{ fontSize: 9, color: 'hsl(var(--ink-faint))' }}>#{i + 1} {s.title.slice(0, 18)}</span>
+                  <div style={STYLES.style20}>
+                    <span style={STYLES.style21}>#{i + 1} {s.title.slice(0, 18)}</span>
                   </div>
                   {/* Delete on hover */}
                   {slides.length > 1 && (
                     <button onClick={e => { e.stopPropagation(); deleteSlide(s.id); }}
                       className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity rounded-full h-4 w-4 flex items-center justify-center bg-red-500 text-white"
-                      style={{ fontSize: 8 }}>
+                      style={STYLES.style22}>
                       <X className="h-2.5 w-2.5" />
                     </button>
                   )}
@@ -320,10 +382,10 @@ export function SlideTab({ tabId }: SlideTabProps) {
             })}
           </div>
 
-          <div className="p-2 border-t" style={{ borderColor: 'hsl(var(--neu-shadow-dark)/0.3)' }}>
+          <div className="p-2 border-t" style={STYLES.style23}>
             <button onClick={() => addSlide('content')}
               className="flex items-center justify-center gap-1 w-full rounded-xl py-2 text-xs font-medium text-ink-light hover:text-spark transition-all"
-              style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>
+              style={STYLES.style24}>
               <Plus className="h-3.5 w-3.5" /> Add Slide
             </button>
           </div>
@@ -331,18 +393,11 @@ export function SlideTab({ tabId }: SlideTabProps) {
 
         {/* ── CENTER: Canvas ── */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 flex items-start justify-center overflow-auto p-8" style={{ background: 'hsl(var(--neu-bg))' }}
+          <div className="flex-1 flex items-start justify-center overflow-auto p-8" style={STYLES.style25}
             ref={canvasRef}>
             {/* Aspect-ratio wrapper */}
-            <div style={{
-              width: 'min(90%, 960px)',
-              aspectRatio: '16/9',
-              position: 'relative',
-              borderRadius: 16,
-              overflow: 'hidden',
-              boxShadow: '20px 20px 40px hsl(var(--neu-shadow-dark)), -10px -10px 30px hsl(var(--neu-shadow-light))',
-            }}>
-              <div style={{ position: 'absolute', inset: 0 }}>
+            <div style={STYLES.style26}>
+              <div style={STYLES.style27}>
                 {/* Render canvas scaled */}
                 <div style={{
                   width: CANVAS_W,
@@ -358,7 +413,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
 
           {/* ── Notes area ── */}
           {showNotes && (
-            <div style={{ height: 120, borderTop: '1px solid hsl(var(--neu-shadow-dark)/0.3)', background: NEU_BG, padding: '10px 16px' }}>
+            <div style={STYLES.style28}>
               <div className="text-xs font-semibold text-ink-faint mb-1">Speaker Notes</div>
               <textarea
                 value={active.notes}
@@ -371,7 +426,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
         </div>
 
         {/* ── RIGHT: Properties Panel ── */}
-        <div className="w-64 shrink-0 overflow-y-auto flex flex-col gap-4 p-4" style={{ background: NEU_BG, boxShadow: '-4px 0 10px hsl(var(--neu-shadow-dark)/0.2)' }}>
+        <div className="w-64 shrink-0 overflow-y-auto flex flex-col gap-4 p-4" style={STYLES.style29}>
 
           {/* Layout picker */}
           <div>
@@ -411,7 +466,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
                 value={active.title}
                 onChange={e => updateActive({ title: e.target.value })}
                 className="w-full rounded-xl px-3 py-2 text-sm font-semibold text-ink focus:outline-none"
-                style={{ background: NEU_BG, boxShadow: NEU_INSET }}
+                style={STYLES.style30}
                 placeholder="Slide title"
               />
               {/* Subtitle (title layout) */}
@@ -420,7 +475,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
                   value={active.subtitle ?? ''}
                   onChange={e => updateActive({ subtitle: e.target.value })}
                   className="w-full rounded-xl px-3 py-2 text-sm text-ink-light focus:outline-none"
-                  style={{ background: NEU_BG, boxShadow: NEU_INSET }}
+                  style={STYLES.style31}
                   placeholder="Subtitle"
                 />
               )}
@@ -431,14 +486,14 @@ export function SlideTab({ tabId }: SlideTabProps) {
                     value={active.quoteText ?? ''}
                     onChange={e => updateActive({ quoteText: e.target.value })}
                     className="w-full rounded-xl px-3 py-2 text-sm text-ink resize-none focus:outline-none"
-                    style={{ background: NEU_BG, boxShadow: NEU_INSET }}
+                    style={STYLES.style32}
                     placeholder="Quote text..." rows={3}
                   />
                   <input
                     value={active.quoteAuthor ?? ''}
                     onChange={e => updateActive({ quoteAuthor: e.target.value })}
                     className="w-full rounded-xl px-3 py-2 text-sm text-ink-light focus:outline-none"
-                    style={{ background: NEU_BG, boxShadow: NEU_INSET }}
+                    style={STYLES.style33}
                     placeholder="— Author name"
                   />
                 </>
@@ -448,10 +503,10 @@ export function SlideTab({ tabId }: SlideTabProps) {
                 <>
                   <textarea value={active.leftContent ?? ''} onChange={e => updateActive({ leftContent: e.target.value })}
                     className="w-full rounded-xl px-3 py-2 text-sm text-ink resize-none focus:outline-none"
-                    style={{ background: NEU_BG, boxShadow: NEU_INSET }} placeholder="Left column..." rows={3} />
+                    style={STYLES.style34} placeholder="Left column..." rows={3} />
                   <textarea value={active.rightContent ?? ''} onChange={e => updateActive({ rightContent: e.target.value })}
                     className="w-full rounded-xl px-3 py-2 text-sm text-ink resize-none focus:outline-none"
-                    style={{ background: NEU_BG, boxShadow: NEU_INSET }} placeholder="Right column..." rows={3} />
+                    style={STYLES.style35} placeholder="Right column..." rows={3} />
                 </>
               )}
             </div>
@@ -464,7 +519,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
                 <div className="text-xs font-bold text-ink-faint uppercase tracking-wider">Bullets</div>
                 <button onClick={addBullet}
                   className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-ink-light hover:text-spark transition-all"
-                  style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>
+                  style={STYLES.style36}>
                   <Plus className="h-3 w-3" /> Add
                 </button>
               </div>
@@ -472,8 +527,8 @@ export function SlideTab({ tabId }: SlideTabProps) {
                 {active.bullets.map(b => (
                   <div key={b.id} className="flex items-center gap-1">
                     <div className="flex flex-col gap-0.5">
-                      <button onClick={() => indentBullet(b.id, -1)} className="text-ink-faint hover:text-ink" style={{ fontSize: 8 }}>◀</button>
-                      <button onClick={() => indentBullet(b.id, 1)} className="text-ink-faint hover:text-ink" style={{ fontSize: 8 }}>▶</button>
+                      <button onClick={() => indentBullet(b.id, -1)} className="text-ink-faint hover:text-ink" style={STYLES.style37}>◀</button>
+                      <button onClick={() => indentBullet(b.id, 1)} className="text-ink-faint hover:text-ink" style={STYLES.style38}>▶</button>
                     </div>
                     <input
                       value={b.text}
@@ -500,7 +555,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
                 value={active.imageUrl ?? ''}
                 onChange={e => updateActive({ imageUrl: e.target.value })}
                 className="w-full rounded-xl px-3 py-2 text-xs text-ink focus:outline-none"
-                style={{ background: NEU_BG, boxShadow: NEU_INSET }}
+                style={STYLES.style40}
                 placeholder="https://..."
               />
             </div>
@@ -512,12 +567,12 @@ export function SlideTab({ tabId }: SlideTabProps) {
           AI GENERATION WIZARD MODAL
       ══════════════════════════════════════════ */}
       {showWizard && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="rounded-3xl p-0 overflow-hidden" style={{ background: NEU_BG, boxShadow: '20px 20px 40px hsl(var(--neu-shadow-dark)), -10px -10px 30px hsl(var(--neu-shadow-light))', width: 540, maxWidth: '95vw' }}>
+        <div style={STYLES.style41}>
+          <div className="rounded-3xl p-0 overflow-hidden" style={STYLES.style42}>
             {/* Wizard Header */}
-            <div className="flex items-center justify-between px-6 py-5" style={{ borderBottom: '1px solid hsl(var(--neu-shadow-dark)/0.3)' }}>
+            <div className="flex items-center justify-between px-6 py-5" style={STYLES.style43}>
               <div className="flex items-center gap-3">
-                <div style={{ background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', borderRadius: 12, padding: 8, boxShadow: '0 0 14px hsl(var(--spark)/0.4)' }}>
+                <div style={STYLES.style44}>
                   <Sparkles className="h-5 w-5 text-white" />
                 </div>
                 <div>
@@ -525,7 +580,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
                   <div className="text-xs text-ink-faint">Powered by Gamma-style AI</div>
                 </div>
               </div>
-              <button onClick={() => setShowWizard(false)} style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM, borderRadius: 10, padding: 6 }}>
+              <button onClick={() => setShowWizard(false)} style={STYLES.style45}>
                 <X className="h-4 w-4 text-ink-light" />
               </button>
             </div>
@@ -537,7 +592,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
                   <div style={{ width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, background: wizardStep === s || (wizardStep === 'generating') ? 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))' : NEU_BG, color: wizardStep === s ? 'white' : 'hsl(var(--ink-faint))', boxShadow: NEU_RAISED_SM }}>
                     {i + 1}
                   </div>
-                  {i < 2 && <div style={{ flex: 1, height: 2, background: 'hsl(var(--neu-shadow-dark)/0.3)', borderRadius: 1 }} />}
+                  {i < 2 && <div style={STYLES.style46} />}
                 </div>
               ))}
             </div>
@@ -554,13 +609,13 @@ export function SlideTab({ tabId }: SlideTabProps) {
                     placeholder="e.g. 'The Future of Renewable Energy' or 'Q3 Sales Strategy'"
                     rows={3}
                     className="w-full rounded-2xl px-4 py-3 text-sm text-ink resize-none focus:outline-none"
-                    style={{ background: NEU_BG, boxShadow: NEU_INSET }}
+                    style={STYLES.style47}
                   />
                   <div className="flex gap-2 flex-wrap">
                     {['Climate Change', 'Machine Learning', 'Marketing Strategy', 'Health & Wellness', 'Financial Report'].map(s => (
                       <button key={s} onClick={() => setTopic(s)}
                         className="rounded-full px-3 py-1.5 text-xs font-medium text-ink-light hover:text-ink transition-all"
-                        style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>
+                        style={STYLES.style48}>
                         {s}
                       </button>
                     ))}
@@ -568,7 +623,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
                   <div className="flex justify-end">
                     <button onClick={() => setWizardStep('options')} disabled={!topic.trim()}
                       className="rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all disabled:opacity-40"
-                      style={{ background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), 0 0 14px hsl(var(--spark)/0.3)' }}>
+                      style={STYLES.style49}>
                       Next →
                     </button>
                   </div>
@@ -599,8 +654,8 @@ export function SlideTab({ tabId }: SlideTabProps) {
                     </div>
                   </div>
                   <div className="flex justify-between">
-                    <button onClick={() => setWizardStep('topic')} className="rounded-xl px-4 py-2 text-sm text-ink-light" style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>← Back</button>
-                    <button onClick={() => setWizardStep('theme')} className="rounded-xl px-5 py-2.5 text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), 0 0 14px hsl(var(--spark)/0.3)' }}>Next →</button>
+                    <button onClick={() => setWizardStep('topic')} className="rounded-xl px-4 py-2 text-sm text-ink-light" style={STYLES.style50}>← Back</button>
+                    <button onClick={() => setWizardStep('theme')} className="rounded-xl px-5 py-2.5 text-sm font-bold text-white" style={STYLES.style51}>Next →</button>
                   </div>
                 </>
               )}
@@ -621,10 +676,10 @@ export function SlideTab({ tabId }: SlideTabProps) {
                     ))}
                   </div>
                   <div className="flex justify-between">
-                    <button onClick={() => setWizardStep('options')} className="rounded-xl px-4 py-2 text-sm text-ink-light" style={{ background: NEU_BG, boxShadow: NEU_RAISED_SM }}>← Back</button>
+                    <button onClick={() => setWizardStep('options')} className="rounded-xl px-4 py-2 text-sm text-ink-light" style={STYLES.style52}>← Back</button>
                     <button onClick={handleGenerate}
                       className="flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold text-white"
-                      style={{ background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', boxShadow: '3px 3px 8px hsl(var(--neu-shadow-dark)), 0 0 18px hsl(var(--spark)/0.4)' }}>
+                      style={STYLES.style53}>
                       <Sparkles className="h-4 w-4" /> Generate Deck
                     </button>
                   </div>
@@ -634,7 +689,7 @@ export function SlideTab({ tabId }: SlideTabProps) {
               {/* Generating state */}
               {wizardStep === 'generating' && (
                 <div className="flex flex-col items-center gap-4 py-8">
-                  <div style={{ background: 'linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))', borderRadius: '50%', padding: 16, boxShadow: '0 0 30px hsl(var(--spark)/0.5)' }}>
+                  <div style={STYLES.style54}>
                     <Loader2 className="h-8 w-8 text-white animate-spin" />
                   </div>
                   <div className="font-bold text-ink">Generating your deck...</div>

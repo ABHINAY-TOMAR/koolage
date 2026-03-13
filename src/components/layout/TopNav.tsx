@@ -25,7 +25,6 @@ function ProfilePanel({ onClose, onSettings }: { onClose: () => void; onSettings
 
   return (
     <div
-      className="absolute top-full right-0 mt-2 z-50"
       className="absolute top-full right-0 mt-2 z-50 w-[300px] rounded-[20px] overflow-hidden bg-[hsl(var(--neu-bg))] shadow-[12px_12px_28px_hsl(var(--neu-shadow-dark)),-8px_-8px_20px_hsl(var(--neu-shadow-light)),0_0_0_1px_hsl(var(--neu-shadow-dark)/0.12)]"
     >
       {/* Hero */}

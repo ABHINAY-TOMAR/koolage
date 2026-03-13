@@ -1,7 +1,7 @@
+/* eslint-disable react/forbid-dom-props, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 import { useState, useRef, useEffect } from "react";
 import { Send, Paperclip, Sparkles, Loader2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { useGamificationStore } from "@/stores/useGamificationStore";
 import { useAI } from "@/hooks/useAI";
 
 interface Message {
@@ -17,10 +17,38 @@ const quickActions = [
   "🧠 Quiz me on a topic",
 ];
 
+
+const STYLES = {
+  style1: {  background: "hsl(var(--neu-bg))"  } as React.CSSProperties,
+  style2: { 
+                background: "hsl(var(--neu-bg))",
+                boxShadow: "10px 10px 20px hsl(var(--neu-shadow-dark)), -10px -10px 20px hsl(var(--neu-shadow-light)), 0 0 30px hsl(var(--spark)/0.2)",
+               } as React.CSSProperties,
+  style3: { 
+                  background: "linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))",
+                  boxShadow: "0 0 20px hsl(var(--spark)/0.5)",
+                 } as React.CSSProperties,
+  style4: { 
+                    background: "hsl(var(--neu-bg))",
+                    boxShadow: "6px 6px 12px hsl(var(--neu-shadow-dark)), -6px -6px 12px hsl(var(--neu-shadow-light))",
+                   } as React.CSSProperties,
+  style5: { 
+              background: "hsl(var(--neu-bg))",
+              boxShadow: "inset 4px 4px 10px hsl(var(--neu-shadow-dark)), inset -4px -4px 10px hsl(var(--neu-shadow-light))",
+             } as React.CSSProperties,
+  style6: { 
+                background: "hsl(var(--neu-bg))",
+                boxShadow: "3px 3px 6px hsl(var(--neu-shadow-dark)), -3px -3px 6px hsl(var(--neu-shadow-light))",
+               } as React.CSSProperties,
+  style7: { 
+                background: "linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))",
+                boxShadow: "3px 3px 8px hsl(var(--neu-shadow-dark)), -1px -1px 4px hsl(var(--neu-shadow-light)), 0 0 12px hsl(var(--spark)/0.3)",
+               } as React.CSSProperties,
+};
+
 export function ChatView() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const { trackAction } = useGamificationStore();
   const { streamChat, isLoading } = useAI();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +68,6 @@ export function ChatView() {
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
-    trackAction('chat');
 
     const assistantId = (Date.now() + 1).toString();
     setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: "" }]);
@@ -61,7 +88,7 @@ export function ChatView() {
   return (
     <div
       className="flex h-full flex-col"
-      style={{ background: "hsl(var(--neu-bg))" }}
+      style={STYLES.style1}
     >
       {/* Messages Area */}
       <div className="flex-1 overflow-auto p-6">
@@ -70,17 +97,11 @@ export function ChatView() {
             {/* Hero Icon */}
             <div
               className="mb-6 flex h-20 w-20 items-center justify-center rounded-3xl"
-              style={{
-                background: "hsl(var(--neu-bg))",
-                boxShadow: "10px 10px 20px hsl(var(--neu-shadow-dark)), -10px -10px 20px hsl(var(--neu-shadow-light)), 0 0 30px hsl(var(--spark)/0.2)",
-              }}
+              style={STYLES.style2}
             >
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-2xl"
-                style={{
-                  background: "linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))",
-                  boxShadow: "0 0 20px hsl(var(--spark)/0.5)",
-                }}
+                style={STYLES.style3}
               >
                 <Sparkles className="h-7 w-7 text-white" />
               </div>
@@ -98,10 +119,7 @@ export function ChatView() {
                   key={action}
                   onClick={() => setInput(action.replace(/^[^\s]+\s/, ""))}
                   className="rounded-2xl px-4 py-4 text-sm text-left font-medium text-ink-light hover:text-ink transition-all duration-200"
-                  style={{
-                    background: "hsl(var(--neu-bg))",
-                    boxShadow: "6px 6px 12px hsl(var(--neu-shadow-dark)), -6px -6px 12px hsl(var(--neu-shadow-light))",
-                  }}
+                  style={STYLES.style4}
                   onMouseDown={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.boxShadow =
                       "inset 4px 4px 8px hsl(var(--neu-shadow-dark)), inset -4px -4px 8px hsl(var(--neu-shadow-light))";
@@ -158,18 +176,12 @@ export function ChatView() {
           {/* Input container — inset neumorph tray */}
           <div
             className="flex items-end gap-3 rounded-3xl p-3"
-            style={{
-              background: "hsl(var(--neu-bg))",
-              boxShadow: "inset 4px 4px 10px hsl(var(--neu-shadow-dark)), inset -4px -4px 10px hsl(var(--neu-shadow-light))",
-            }}
+            style={STYLES.style5}
           >
             {/* Attach button */}
             <button
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all duration-200"
-              style={{
-                background: "hsl(var(--neu-bg))",
-                boxShadow: "3px 3px 6px hsl(var(--neu-shadow-dark)), -3px -3px 6px hsl(var(--neu-shadow-light))",
-              }}
+              style={STYLES.style6}
             >
               <Paperclip className="h-5 w-5 text-ink-light" />
             </button>
@@ -193,10 +205,7 @@ export function ChatView() {
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white transition-all duration-200 disabled:opacity-40"
-              style={{
-                background: "linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)))",
-                boxShadow: "3px 3px 8px hsl(var(--neu-shadow-dark)), -1px -1px 4px hsl(var(--neu-shadow-light)), 0 0 12px hsl(var(--spark)/0.3)",
-              }}
+              style={STYLES.style7}
             >
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

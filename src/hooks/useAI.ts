@@ -143,7 +143,7 @@ export function useAI() {
 
   const generateSlides = useCallback(async (
     topic: string, 
-    style: 'professional' | 'creative' | 'academic' = 'professional'
+    style: string = 'professional'
   ): Promise<{ slides: Slide[] } | null> => {
     setIsLoading(true);
     

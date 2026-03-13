@@ -18,7 +18,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
 import { useAI } from '@/hooks/useAI';
-import { useGamificationStore } from '@/stores/useGamificationStore';
 import './PageTab.css';
 
 interface PageTabProps {
@@ -34,7 +33,6 @@ export function PageTab({ tabId, initialContent = '', onSave }: PageTabProps) {
   const [prompt, setPrompt] = useState('');
   const [selectedAction, setSelectedAction] = useState<TextAction>('generate');
   const { expandText, isLoading } = useAI();
-  const { trackAction } = useGamificationStore();
   const streamingTextRef = useRef('');
 
   const editor = useEditor({
@@ -74,7 +72,6 @@ export function PageTab({ tabId, initialContent = '', onSave }: PageTabProps) {
       () => {
         streamingTextRef.current = '';
         setPrompt('');
-        trackAction('write');
       }
     );
   }, [editor, expandText]);
