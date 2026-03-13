@@ -1,0 +1,5 @@
+{
+  "name": "3D Photography Gallery",
+  "description": "An immersive 3D gallery to showcase photography with smooth scrolling, blur, and fade effects, created using React, Three.js, and Tailwind CSS.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,407 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  Kolage Design System: "Neumorphism"
+  Soft UI / Neumorphism aesthetic — light-mode focused with warm gray tones.
+  Elements appear extruded from the background, using dual shadows (light + dark).
+*/
+
+@layer base {
+  :root {
+    /* === NEUMORPHISM BASE PALETTE === */
+    /* Background: Soft warm gray — the "material" the UI is made from */
+    --background: 220 14% 91%;
+    --foreground: 220 20% 20%;
+
+    /* Cards: Same as background (critical for neumorph effect) */
+    --card: 220 14% 91%;
+    --card-foreground: 220 20% 20%;
+
+    --popover: 220 14% 91%;
+    --popover-foreground: 220 20% 20%;
+
+    /* Primary: Deep blue-tinted dark */
+    --primary: 220 20% 20%;
+    --primary-foreground: 220 14% 91%;
+
+    /* Secondary: Slightly darker than bg */
+    --secondary: 220 14% 85%;
+    --secondary-foreground: 220 20% 20%;
+
+    /* Muted: Soft gray */
+    --muted: 220 14% 87%;
+    --muted-foreground: 220 10% 50%;
+
+    /* Accent: Electric Amber — the spark color kept */
+    --accent: 38 90% 52%;
+    --accent-foreground: 220 20% 10%;
+
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 220 14% 91%;
+
+    /* Border: Very subtle */
+    --border: 220 14% 84%;
+    --input: 220 14% 84%;
+    --ring: 38 90% 52%;
+
+    --radius: 1rem;
+
+    /* === SIDEBAR (Left Nav) === */
+    --sidebar-background: 220 14% 91%;
+    --sidebar-foreground: 220 20% 30%;
+    --sidebar-primary: 38 90% 52%;
+    --sidebar-primary-foreground: 220 20% 10%;
+    --sidebar-accent: 220 14% 85%;
+    --sidebar-accent-foreground: 220 20% 20%;
+    --sidebar-border: 220 14% 84%;
+    --sidebar-ring: 38 90% 52%;
+
+    /* === NEUMORPHISM CUSTOM TOKENS === */
+    --neu-bg: 220 14% 91%;
+    --neu-bg-dark: 220 14% 83%;
+    --neu-bg-light: 220 14% 99%;
+
+    /* Shadow colors for neumorph effect */
+    --neu-shadow-dark: 220 20% 73%;    /* darker shadow */
+    --neu-shadow-light: 220 14% 100%;  /* lighter shadow  */
+
+    /* Spark / amber accent */
+    --spark: 38 90% 52%;
+    --spark-glow: 38 100% 60%;
+    --spark-muted: 38 70% 87%;
+
+    /* Neon Blue (selection states) */
+    --neon: 217 91% 60%;
+    --neon-muted: 217 60% 90%;
+
+    /* Streak Fire gradient */
+    --fire-start: 25 95% 53%;
+    --fire-end: 38 90% 52%;
+
+    /* Text shades */
+    --ink: 220 20% 20%;
+    --ink-light: 220 15% 45%;
+    --ink-faint: 220 10% 62%;
+
+    /* Paper tokens kept for compatibility */
+    --paper: 220 14% 91%;
+    --paper-elevated: 220 14% 91%;
+    --paper-grid: 220 14% 85%;
+
+    --shadow-color: 220 20% 10%;
+  }
+
+  .dark {
+    --background: 220 18% 14%;
+    --foreground: 220 14% 88%;
+
+    --card: 220 18% 14%;
+    --card-foreground: 220 14% 88%;
+
+    --popover: 220 18% 14%;
+    --popover-foreground: 220 14% 88%;
+
+    --primary: 220 14% 88%;
+    --primary-foreground: 220 18% 14%;
+
+    --secondary: 220 18% 18%;
+    --secondary-foreground: 220 14% 88%;
+
+    --muted: 220 18% 16%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 38 90% 52%;
+    --accent-foreground: 220 18% 10%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 220 14% 88%;
+
+    --border: 220 18% 20%;
+    --input: 220 18% 20%;
+    --ring: 38 90% 52%;
+
+    --sidebar-background: 220 18% 12%;
+    --sidebar-foreground: 220 14% 75%;
+    --sidebar-primary: 38 90% 52%;
+    --sidebar-primary-foreground: 220 18% 10%;
+    --sidebar-accent: 220 18% 18%;
+    --sidebar-accent-foreground: 220 14% 88%;
+    --sidebar-border: 220 18% 18%;
+    --sidebar-ring: 38 90% 52%;
+
+    --neu-bg: 220 18% 14%;
+    --neu-bg-dark: 220 18% 8%;
+    --neu-bg-light: 220 18% 22%;
+    --neu-shadow-dark: 220 25% 6%;
+    --neu-shadow-light: 220 15% 24%;
+
+    --spark: 38 90% 52%;
+    --spark-glow: 38 100% 60%;
+    --spark-muted: 38 50% 20%;
+
+    --neon: 217 91% 60%;
+    --neon-muted: 217 40% 22%;
+
+    --paper: 220 18% 14%;
+    --paper-elevated: 220 18% 14%;
+    --paper-grid: 220 18% 18%;
+
+    --ink: 220 14% 88%;
+    --ink-light: 220 10% 60%;
+    --ink-faint: 220 6% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-color: hsl(var(--neu-bg));
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-ink;
+  }
+
+  code, pre, .font-mono {
+    font-family: "JetBrains Mono", monospace;
+  }
+}
+
+@layer utilities {
+
+  /* =====================================================
+     NEUMORPHISM SHADOW UTILITIES
+     The core effect: two shadows (dark bottom-right, 
+     light top-left) create the extruded/pressed illusion
+  ===================================================== */
+
+  /* Raised element — appears to pop out of the surface */
+  .neu-raised {
+    box-shadow:
+      6px 6px 12px hsl(var(--neu-shadow-dark)),
+      -6px -6px 12px hsl(var(--neu-shadow-light));
+  }
+
+  .neu-raised-sm {
+    box-shadow:
+      3px 3px 7px hsl(var(--neu-shadow-dark)),
+      -3px -3px 7px hsl(var(--neu-shadow-light));
+  }
+
+  .neu-raised-lg {
+    box-shadow:
+      10px 10px 20px hsl(var(--neu-shadow-dark)),
+      -10px -10px 20px hsl(var(--neu-shadow-light));
+  }
+
+  /* Inset / pressed element — appears sunken into surface */
+  .neu-inset {
+    box-shadow:
+      inset 4px 4px 8px hsl(var(--neu-shadow-dark)),
+      inset -4px -4px 8px hsl(var(--neu-shadow-light));
+  }
+
+  .neu-inset-sm {
+    box-shadow:
+      inset 2px 2px 5px hsl(var(--neu-shadow-dark)),
+      inset -2px -2px 5px hsl(var(--neu-shadow-light));
+  }
+
+  /* Active/clicked state — deeper inset */
+  .neu-pressed {
+    box-shadow:
+      inset 5px 5px 10px hsl(var(--neu-shadow-dark)),
+      inset -5px -5px 10px hsl(var(--neu-shadow-light));
+  }
+
+  /* Flat — very subtle, just floats slightly */
+  .neu-flat {
+    box-shadow:
+      2px 2px 5px hsl(var(--neu-shadow-dark)),
+      -2px -2px 5px hsl(var(--neu-shadow-light));
+  }
+
+  /* Active pill — inset with amber accent ring */
+  .neu-active {
+    box-shadow:
+      inset 3px 3px 7px hsl(var(--neu-shadow-dark)),
+      inset -3px -3px 7px hsl(var(--neu-shadow-light)),
+      0 0 0 2px hsl(var(--spark) / 0.4);
+  }
+
+  /* Glowing amber button */
+  .neu-spark {
+    background: linear-gradient(135deg, hsl(var(--spark-glow)), hsl(var(--spark)));
+    box-shadow:
+      4px 4px 10px hsl(var(--neu-shadow-dark)),
+      -2px -2px 6px hsl(var(--neu-shadow-light)),
+      0 0 18px hsl(var(--spark) / 0.35);
+  }
+
+  .neu-spark:hover {
+    box-shadow:
+      2px 2px 6px hsl(var(--neu-shadow-dark)),
+      -1px -1px 4px hsl(var(--neu-shadow-light)),
+      0 0 24px hsl(var(--spark) / 0.5);
+  }
+
+  .neu-spark:active {
+    box-shadow:
+      inset 2px 2px 5px hsl(var(--spark) / 0.4),
+      inset -1px -1px 3px hsl(var(--spark-glow) / 0.2),
+      0 0 12px hsl(var(--spark) / 0.3);
+  }
+
+  /* Icon button circle */
+  .neu-circle {
+    box-shadow:
+      4px 4px 8px hsl(var(--neu-shadow-dark)),
+      -4px -4px 8px hsl(var(--neu-shadow-light));
+  }
+
+  .neu-circle:hover {
+    box-shadow:
+      6px 6px 12px hsl(var(--neu-shadow-dark)),
+      -6px -6px 12px hsl(var(--neu-shadow-light));
+  }
+
+  .neu-circle:active,
+  .neu-circle.active {
+    box-shadow:
+      inset 3px 3px 6px hsl(var(--neu-shadow-dark)),
+      inset -3px -3px 6px hsl(var(--neu-shadow-light));
+  }
+
+  /* Progress bar track (inset) */
+  .neu-progress-track {
+    box-shadow:
+      inset 2px 2px 5px hsl(var(--neu-shadow-dark)),
+      inset -2px -2px 5px hsl(var(--neu-shadow-light));
+  }
+
+  /* Card wrapper */
+  .neu-card {
+    background: hsl(var(--neu-bg));
+    border-radius: 1.25rem;
+    box-shadow:
+      8px 8px 16px hsl(var(--neu-shadow-dark)),
+      -8px -8px 16px hsl(var(--neu-shadow-light));
+  }
+
+  .neu-card:hover {
+    box-shadow:
+      10px 10px 20px hsl(var(--neu-shadow-dark)),
+      -10px -10px 20px hsl(var(--neu-shadow-light));
+    transform: translateY(-2px);
+  }
+
+  /* Input field */
+  .neu-input {
+    background: hsl(var(--neu-bg));
+    box-shadow:
+      inset 3px 3px 7px hsl(var(--neu-shadow-dark)),
+      inset -3px -3px 7px hsl(var(--neu-shadow-light));
+    border: none;
+    outline: none;
+  }
+
+  .neu-input:focus {
+    box-shadow:
+      inset 3px 3px 7px hsl(var(--neu-shadow-dark)),
+      inset -3px -3px 7px hsl(var(--neu-shadow-light)),
+      0 0 0 2px hsl(var(--spark) / 0.4);
+  }
+
+  /* Sidebar / panel */
+  .neu-panel {
+    background: hsl(var(--neu-bg));
+    box-shadow:
+      4px 0 12px hsl(var(--neu-shadow-dark)),
+      -2px 0 6px hsl(var(--neu-shadow-light));
+  }
+
+  /* Dot grid (kept) */
+  .dot-grid {
+    background-image: radial-gradient(circle, hsl(var(--paper-grid)) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* =====================================================
+     ANIMATIONS
+  ===================================================== */
+
+  @keyframes fire-pulse {
+    0%, 100% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 4px hsl(var(--fire-start)));
+    }
+    50% {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 8px hsl(var(--fire-end)));
+    }
+  }
+
+  .animate-fire-pulse {
+    animation: fire-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes node-bloom {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .animate-node-bloom {
+    animation: node-bloom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s ease-out forwards;
+  }
+
+  @keyframes neu-pop {
+    0% { box-shadow: inset 4px 4px 8px hsl(var(--neu-shadow-dark)), inset -4px -4px 8px hsl(var(--neu-shadow-light)); }
+    100% { box-shadow: 6px 6px 12px hsl(var(--neu-shadow-dark)), -6px -6px 12px hsl(var(--neu-shadow-light)); }
+  }
+
+  @keyframes sub-item-fade {
+    from { transform: translateX(-6px); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+
+  .animate-sub-item {
+    animation: sub-item-fade 0.18s ease-out forwards;
+  }
+
+  /* Legacy aliases for compatibility */
+  .shadow-desk {
+    box-shadow:
+      6px 6px 12px hsl(var(--neu-shadow-dark)),
+      -6px -6px 12px hsl(var(--neu-shadow-light));
+  }
+
+  .shadow-dock {
+    box-shadow:
+      10px 10px 20px hsl(var(--neu-shadow-dark)),
+      -10px -10px 20px hsl(var(--neu-shadow-light));
+  }
+}
